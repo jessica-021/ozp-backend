@@ -60,6 +60,7 @@ INSTALLED_APPS = (
     'ozpcenter',
     'ozpiwc',
     'corsheaders',
+    'channels',
 )
 
 # Note that CorsMiddleware needs to come before Django's CommonMiddleware if
@@ -261,6 +262,17 @@ OZP = {
         # max value: 60*60*24 (1 day)
         'SECONDS_TO_CACHE_DATA': 5
     }
+}
+
+# django channels
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "asgi_redis.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("localhost", 6379)],
+        },
+        "ROUTING": "ozp.routing.channel_routing",
+    },
 }
 
 # Plugin Info
