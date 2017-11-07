@@ -12,6 +12,7 @@ coreschema==0.0.4
 coverage==4.4.1
 Django==1.11.5
 django-cors-headers==2.1.0
+django-debug-toolbar==1.8
 django-enumfield==1.2.1
 django-extensions==1.9.1
 django-extras==0.3
@@ -64,6 +65,7 @@ requests==2.18.4
 s3transfer==0.1.11
 simplejson==3.11.1
 six==1.11.0
+sqlparse==0.2.4
 tornado==4.5.2
 uritemplate==3.0.0
 urllib3==1.22

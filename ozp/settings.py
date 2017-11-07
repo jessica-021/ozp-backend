@@ -60,6 +60,7 @@ INSTALLED_APPS = (
     'ozpcenter',
     'ozpiwc',
     'corsheaders',
+    'debug_toolbar',
 )
 
 # Note that CorsMiddleware needs to come before Django's CommonMiddleware if
@@ -68,6 +69,7 @@ INSTALLED_APPS = (
 # browsers.
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -76,6 +78,29 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
 )
+
+DEBUG_TOOLBAR_PANELS = [
+    'debug_toolbar.panels.versions.VersionsPanel',
+    'debug_toolbar.panels.timer.TimerPanel',
+    'debug_toolbar.panels.settings.SettingsPanel',
+    'debug_toolbar.panels.headers.HeadersPanel',
+    'debug_toolbar.panels.request.RequestPanel',
+    'debug_toolbar.panels.sql.SQLPanel',
+    'debug_toolbar.panels.staticfiles.StaticFilesPanel',
+    'debug_toolbar.panels.templates.TemplatesPanel',
+    'debug_toolbar.panels.cache.CachePanel',
+    'debug_toolbar.panels.signals.SignalsPanel',
+    'debug_toolbar.panels.logging.LoggingPanel',
+    'debug_toolbar.panels.redirects.RedirectsPanel',
+]
+
+CONFIG_DEFAULTS = {
+    # Toolbar options
+    'RESULTS_CACHE_SIZE': 3,
+    'SHOW_COLLAPSED': True,
+    # Panel options
+    'SQL_WARNING_THRESHOLD': 100,   # milliseconds
+}
 
 ROOT_URLCONF = 'ozp.urls'
 
@@ -375,3 +400,14 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 # MEDIA_URL is the relative browser URL to be used when accessing media files
 #   from the browser
 MEDIA_URL = 'media/'
+
+
+def show_toolbar(request):
+    if DEBUG is True:
+        return True
+    return False
+
+
+DEBUG_TOOLBAR_CONFIG = {
+    'SHOW_TOOLBAR_CALLBACK': 'ozp.settings.show_toolbar',
+}

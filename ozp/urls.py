@@ -25,10 +25,12 @@ apipatterns = [
     url(r'^iwc-api/', include('ozpiwc.urls')),
 ]
 
+import debug_toolbar
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^docs/', views.schema_view),
+    url(r'^__debug__/', include(debug_toolbar.urls)),
 ]
 urlpatterns = urlpatterns + apipatterns
 
