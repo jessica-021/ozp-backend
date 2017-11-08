@@ -11,6 +11,7 @@ from ozpcenter.scripts import sample_data_generator as data_gen
 import ozpcenter.api.listing.model_access as model_access
 from tests.ozpcenter.helper import validate_listing_map_keys
 from tests.ozpcenter.helper import unittest_request_helper
+from tests.ozpcenter.helper import ExceptionUnitTestHelper
 
 
 @override_settings(ES_ENABLED=False)
@@ -245,9 +246,11 @@ class ListingApiTest(APITestCase):
         url = '/api/listing/1/'
         response = self.client.delete(url, format='json')
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
-        data = response.data
-        expected_data = {'detail': 'Permission denied.', 'error': True, 'message': 'Current profile has does not have delete permissions'}
-        self.assertEqual(data, expected_data)
+        # replaced for consistent errors
+        # data = response.data
+        # expected_data = {'detail': 'Permission denied.', 'error': True, 'message': 'Current profile does not have delete permissions'}
+        # self.assertEqual(data, expected_data)
+        self.assertEqual(response.data, ExceptionUnitTestHelper.permission_denied('Current profile does not have delete permissions'))
 
     def test_update_listing_partial(self):
         """

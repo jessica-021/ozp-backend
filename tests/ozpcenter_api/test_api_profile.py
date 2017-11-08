@@ -12,6 +12,7 @@ from tests.ozp import helper
 from ozpcenter import model_access as generic_model_access
 from ozpcenter.scripts import sample_data_generator as data_gen
 from tests.ozpcenter.helper import unittest_request_helper
+from tests.ozpcenter.helper import ExceptionUnitTestHelper
 
 
 @override_settings(ES_ENABLED=False)
@@ -387,7 +388,12 @@ class ProfileApiTest(APITestCase):
 
         expected_data = {'detail': 'Authentication credentials were not provided.', 'error': True}
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
-        self.assertEqual(response.data, expected_data)
+        # replaced for consistent errors
+        # self.assertEqual(response.data, expected_data)
+        self.assertEqual(response.data, ExceptionUnitTestHelper.authorization_failure())
+        print('*', 30)
+        print(response.data)
+        print('*', 30)
 
     @patch('plugins.plugin_manager.requests.get', side_effect=helper.mocked_requests_get)
     def test_update_stewarded_orgs_for_apps_mall_steward_level(self, mock_request):

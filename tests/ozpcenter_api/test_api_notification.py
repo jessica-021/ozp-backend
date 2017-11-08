@@ -11,6 +11,7 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 
 from tests.ozpcenter.helper import unittest_request_helper
+from tests.ozpcenter.helper import ExceptionUnitTestHelper
 from ozpcenter import model_access as generic_model_access
 from ozpcenter.scripts import sample_data_generator as data_gen
 
@@ -23,12 +24,13 @@ from tests.ozpcenter.helper import _import_bookmarks
 class NotificationApiTest(APITestCase):
 
     def setUp(self):
+        pass
         """
         setUp is invoked before each test method
         """
-        self.expected_error = {'detail': 'Permission denied.',
-                               'error': True,
-                               'message': 'Only Stewards can delete notifications'}
+        # self.expected_error = {'detail': 'Permission denied.',
+        #                       'error': True,
+        #                       'message': 'Only Stewards can delete notifications'}
 
     @classmethod
     def setUpTestData(cls):
@@ -1047,12 +1049,18 @@ class NotificationApiTest(APITestCase):
     def test_delete_system_notification_org_steward(self):
         url = '/api/notification/1/'
         response = unittest_request_helper(self, url, 'DELETE', username='wsmith', status_code=403)
-        self.assertEqual(response.data, self.expected_error)
+        # replaced for consistent errors
+        # self.assertEqual(response.data, self.expected_error)
+        self.assertEqual(response.data, ExceptionUnitTestHelper.permission_denied())
 
     def test_delete_system_notification_user_unauthorized(self):
         url = '/api/notification/1/'
         response = unittest_request_helper(self, url, 'DELETE', username='jones', status_code=403)
-        self.assertEqual(response.data, self.expected_error)
+        # replaced for consistent errors
+        # self.assertEqual(response.data, self.expected_error)
+        # self.assertEqual(response.data, ExceptionUnitTestHelper.permission_denied('Only Stewards can delete notifications'))
+        expected_response = ExceptionUnitTestHelper.permission_denied('Only Stewards can delete notifications')
+        self.assertEqual(response.data, expected_response)
 
     # TODO: Unittest for below
     # AMLNG-378 - As a user, I want to receive notification about changes on Listings I've bookmarked

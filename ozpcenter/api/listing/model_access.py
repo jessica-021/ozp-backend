@@ -762,7 +762,7 @@ def delete_listing(username, listing):
 
     # Don't allow 2nd-party user to be an delete a listing
     if system_anonymize_identifiable_data(profile.user.username):
-        raise errors.PermissionDenied('Current profile has does not have delete permissions')
+        raise errors.PermissionDenied('Current profile does not have delete permissions')
 
     priv_roles = ['APPS_MALL_STEWARD', 'ORG_STEWARD']
     if profile.highest_role() in priv_roles or listing.approval_status == 'IN_PROGRESS':

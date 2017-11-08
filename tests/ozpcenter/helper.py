@@ -16,13 +16,29 @@ TEST_DATA_PATH = os.path.join(TEST_BASE_PATH, 'test_data')
 
 class ExceptionUnitTestHelper(object):
     """
-    This class responsible of return dictionaries of exceptions to compare with
+    This class returns dictionaries of exceptions to compare with response data
     """
     @staticmethod
-    def permission_denied():
-        return {'detail': 'You do not have permission to perform this action.',
+    def permission_denied(detailmsg=None):
+        detail = detailmsg or 'You do not have permission to perform this action.'
+        return {'detail': detail,
                 'error': True,
                 'error_code': 'permission_denied'}
+
+    @staticmethod
+    def authorization_failurexx(detailmsg=None):
+        detail = detailmsg or 'Not authorized to view.'
+        return {'detail': detail,
+                'error': True,
+                'error_code': 'authorization_failure'}
+
+    @staticmethod
+    def authorization_failure(detailmsg=None):
+        detail = detailmsg or 'Authentication credentials were not provided.'
+        return {'detail': detail,
+                'error': True,
+                'error_code': 'not_authenticated'}
+        # 'error_code': 'authorization_failure'}
 
 
 def _import_bookmarks(test_case_instance, username, bookmark_notification_id, status_code=201):
